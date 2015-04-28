@@ -17,39 +17,35 @@ import org.junit.Test;
  * @author czhcc
  *
  */
-public class indexJoin
+public class ZjhmJoin
 {
-	/**
-	 * 创建两个core，分别为db1和db2，两个都有name字段
-	 * select db1.name from db1 join db2 on (db1.name=db2.name)
-	 * 
-	 * @throws Exception
-	 */
 	@Test
 	public void join() throws Exception
 	{
-		//http://localhost:3033/solr/QUESTINORE/select?q={!join from=LoadID+to=LoadID+fromIndex=LOAD}DataStreamSubType:34sdf&fq=SourceID:1
-		String urlString = "http://localhost:8983/solr/db1";
+		String urlString = "http://192.168.0.239:8983/solr/db1";
 		SolrClient solr = new HttpSolrClient(urlString);
 		
+		long start = System.currentTimeMillis();
 		SolrQuery parameters = new SolrQuery();
-//		parameters.set("q","*");
-		parameters.set("q","{!join from=name fromIndex=db2 to=name}*:*");
-//		parameters.set("fq","!join from=name fromIndex=db2 to=name");
-//		parameters.addFacetQuery("!join from=name fromIndex=db2 to=name");
+		parameters.set("q","{!join from=zjhm fromIndex=db2 to=zjhm}*:*");
+//		parameters.set("fq","!join fromIndex=db1 toIndex=db2 from=zjhm to=zjhm");
+//		parameters.addFacetQuery("!join from=name to=name fromIndex=db2");
 		QueryResponse response = solr.query(parameters);
 		SolrDocumentList list = response.getResults();
 		if(!list.isEmpty())
 		{
-			ListIterator<SolrDocument> listIterator = list.listIterator();
-			/*while(listIterator.hasNext())
+			/*ListIterator<SolrDocument> listIterator = list.listIterator();
+			while(listIterator.hasNext())
 			{
 				SolrDocument doc = listIterator.next();
 				System.out.println(doc.get("id"));
 				System.out.println(doc.get("name"));
+				System.out.println(doc.get("zjhm"));
 			}*/
 			System.out.println("size=" + list.getNumFound());
 		}
+		long end = System.currentTimeMillis();
+		System.out.println("time:" + (end-start) + "ms");
 		
 		solr.close();
 	}

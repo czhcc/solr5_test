@@ -26,6 +26,7 @@ public class CreateIndex
 			SolrInputDocument document = new SolrInputDocument();
 			document.addField("id", Integer.toString(i));
 			document.addField("name", "name" + i);
+			document.addField("zjhm", "zjhm" + i);
 			UpdateResponse response = solr.add(document);
 		}
 		 
@@ -44,6 +45,7 @@ public class CreateIndex
 			SolrInputDocument document = new SolrInputDocument();
 			document.addField("id", Integer.toString(i));
 			document.addField("name", "name" + i);
+			document.addField("zjhm", "zjhm" + i);
 			UpdateResponse response = solr.add(document);
 		}
 		 
